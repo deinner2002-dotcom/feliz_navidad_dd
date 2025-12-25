@@ -5,18 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Viaje Navideño</title>
 
-<!-- FUENTE NAVIDEÑA -->
 <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* =========================
-   RESET Y BASE
-========================= */
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Mountains of Christmas', cursive;
   background:black;
@@ -24,38 +16,24 @@ body{
   overflow:hidden;
 }
 
-/* =========================
-   ESCENAS
-========================= */
+/* ESCENAS */
 .scene{
   position:fixed;
   inset:0;
   display:none;
   flex-direction:column;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   text-align:center;
 }
-.scene.active{
-  display:flex;
-}
+.scene.active{display:flex}
 
-/* =========================
-   NIEVE
-========================= */
-.snow{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
-}
+/* NIEVE */
+.snow{position:absolute;inset:0;pointer-events:none;z-index:1}
 .snow span{
   position:absolute;
-  width:4px;
-  height:4px;
-  background:white;
-  border-radius:50%;
-  opacity:.8;
+  width:4px;height:4px;
+  background:white;border-radius:50%;
   animation:fall linear infinite;
 }
 @keyframes fall{
@@ -63,18 +41,15 @@ body{
   to{transform:translateY(110vh)}
 }
 
-/* =========================
-   BOTONES
-========================= */
+/* BOTONES */
 .btn{
-  padding:16px 28px;
+  padding:16px 32px;
   border-radius:40px;
   background:white;
   color:black;
   border:none;
   font-size:18px;
   cursor:pointer;
-  margin-top:30px;
   z-index:5;
 }
 .btn-light{
@@ -83,46 +58,42 @@ body{
   color:white;
 }
 
-/* =========================
-   TEXTO
-========================= */
+/* TEXTO */
 .text{
   font-size:22px;
   padding:20px;
-  animation:textIn 2s;
+  max-width:90%;
+  animation:fadeUp 2s;
+  z-index:3;
 }
-@keyframes textIn{
-  from{opacity:0; transform:translateY(20px)}
-  to{opacity:1; transform:none}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
 }
 
-/* =========================
-   IMAGEN FLOTANTE
-========================= */
+/* IMAGEN FLOTANTE (RECORRIDO) */
 .floating-img{
   position:absolute;
-  top:12%;
-  width:120px;
+  top:6%;
+  width:160px;
   z-index:2;
-  animation:float 5s ease-in-out infinite;
+  animation:fly 18s linear infinite;
 }
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-18px)}
+@keyframes fly{
+  from{left:-40%}
+  to{left:110%}
 }
 
-/* =========================
-   CICLOS
-========================= */
+/* CICLOS */
 .cycle-container{
-  margin-top:180px;
+  margin-top:220px;
   z-index:3;
 }
 .cycle-img{
-  width:75%;
-  max-width:320px;
-  border-radius:16px;
-  margin-top:15px;
+  width:90%;
+  max-width:420px;
+  border-radius:18px;
+  margin-top:20px;
   animation:fadeImg 2s;
 }
 @keyframes fadeImg{
@@ -130,137 +101,106 @@ body{
   to{opacity:1}
 }
 
-/* =========================
-   REGALO
-========================= */
+/* REGALO */
 .gift{
-  width:180px;
+  width:200px;
   cursor:pointer;
   animation:pulse 2s infinite;
 }
 @keyframes pulse{
   0%,100%{transform:scale(1)}
-  50%{transform:scale(1.05)}
+  50%{transform:scale(1.08)}
 }
 
-/* =========================
-   CORAZÓN
-========================= */
-.heart{
-  width:200px;
-  margin-bottom:20px;
-}
+/* CORAZÓN */
+.heart{width:220px;margin-bottom:20px}
 
-/* =========================
-   FINAL
-========================= */
-.final img{
-  border-radius:16px;
-}
+/* FINAL */
+.final img{border-radius:18px}
 .final-row{
   display:flex;
-  gap:12px;
-  margin-top:15px;
+  gap:14px;
+  margin-top:20px;
 }
 
-/* =========================
-   MOBILE OPTIMIZATION
-========================= */
+/* MOBILE */
 @media(min-width:768px){
   .text{font-size:26px}
-  .floating-img{width:150px}
+  .floating-img{width:200px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUDIO -->
 <audio id="audio" src="audio/cascabeles.mp3" loop></audio>
 
-<!-- =========================
-     ESCENA 1 – INTRO
-========================= -->
+<!-- ESCENA 1 -->
 <div class="scene active" id="scene1">
   <div class="snow"></div>
-  <h1 class="text">❄️</h1>
   <button class="btn" onclick="startJourney()">🎄 Iniciar viaje navideño</button>
 </div>
 
-<!-- =========================
-     ESCENA 2 – VIAJE
-========================= -->
+<!-- ESCENA 2 VIAJE -->
 <div class="scene" id="scene2" style="background:#020824">
   <div class="snow"></div>
 
-  <!-- IMAGEN FLOTANTE (EDITABLE) -->
+  <!-- TU IMAGEN FLOTANTE -->
   <img src="img/flotante.png" class="floating-img">
 
-  <!-- CONTENEDOR DE CICLOS -->
   <div class="cycle-container">
     <div id="cycleText" class="text"></div>
     <img id="cycleImg" class="cycle-img" style="display:none">
   </div>
 </div>
 
-<!-- =========================
-     ESCENA 3 – CASA
-========================= -->
+<!-- ESCENA 3 TECHO -->
 <div class="scene" id="scene3">
   <div class="snow"></div>
-  <h2 class="text">🏠 Llegando a casa...</h2>
+  <p class="text">❄️ El viaje termina… en casa</p>
 </div>
 
-<!-- =========================
-     ESCENA 4 – REGALO
-========================= -->
+<!-- ESCENA 4 INTERIOR -->
 <div class="scene" id="scene4">
+  <p class="text">🎄 Dentro todo está preparado…</p>
+</div>
+
+<!-- ESCENA 5 REGALO -->
+<div class="scene" id="scene5">
   <img src="img/regalo.png" class="gift" onclick="openGift()">
   <p class="text">🎁 Toca el regalo</p>
 </div>
 
-<!-- =========================
-     ESCENA 5 – CORAZÓN
-========================= -->
-<div class="scene" id="scene5">
+<!-- ESCENA 6 CORAZÓN -->
+<div class="scene" id="scene6">
   <img src="img/corazon.png" class="heart">
   <p class="text">💖 Aquí va tu mensaje editable</p>
   <button class="btn-light" onclick="goFinal()">💡 Ya es hora…</button>
 </div>
 
-<!-- =========================
-     ESCENA 6 – FINAL
-========================= -->
-<div class="scene final" id="scene6">
-  <img src="img/final-grande.jpg" style="width:75%">
+<!-- ESCENA 7 FINAL -->
+<div class="scene final" id="scene7">
+  <img src="img/final-grande.jpg" style="width:90%">
   <div class="final-row">
-    <img src="img/final-1.jpg" width="90">
-    <img src="img/final-2.jpg" width="90">
+    <img src="img/final-1.jpg" width="100">
+    <img src="img/final-2.jpg" width="100">
   </div>
 </div>
 
 <script>
-/* =========================
-   CONTROL DE ESCENAS
-========================= */
 const scenes=document.querySelectorAll('.scene');
 function showScene(id){
   scenes.forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* =========================
-   INICIO
-========================= */
 function startJourney(){
   document.getElementById('audio').play();
   showScene('scene2');
   startCycles();
 }
 
-/* =========================
-   CICLOS (3)
-========================= */
+/* CICLOS */
 const texts=[
   "✨ Primer mensaje especial",
   "🎄 Segundo mensaje navideño",
@@ -271,66 +211,7 @@ const images=[
   "img/ciclo2.jpg",
   "img/ciclo3.jpg"
 ];
-
-let index=0;
-function startCycles(){
-  if(index>=3){
-    setTimeout(()=>showScene('scene3'),1000);
-    return;
-  }
-
-  const textEl=document.getElementById('cycleText');
-  const imgEl=document.getElementById('cycleImg');
-
-  textEl.innerText=texts[index];
-  imgEl.style.display='none';
-
-  // 10 segundos texto
-  setTimeout(()=>{
-    imgEl.src=images[index];
-    imgEl.style.display='block';
-  },10000);
-
-  // 10 segundos imagen
-  setTimeout(()=>{
-    index++;
-    startCycles();
-  },20000);
-}
-
-/* =========================
-   REGALO (3 CLICS)
-========================= */
-let giftClicks=0;
-function openGift(){
-  giftClicks++;
-  if(giftClicks>=3){
-    showScene('scene5');
-  }
-}
-
-/* =========================
-   FINAL
-========================= */
-function goFinal(){
-  showScene('scene6');
-}
-
-/* =========================
-   GENERAR NIEVE
-========================= */
-document.querySelectorAll('.snow').forEach(layer=>{
-  for(let i=0;i<60;i++){
-    const s=document.createElement('span');
-    s.style.left=Math.random()*100+'%';
-    s.style.animationDuration=3+Math.random()*6+'s';
-    layer.appendChild(s);
-  }
-});
-</script>
-
-</body>
-</html>
+let i=
 
 
 
