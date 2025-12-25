@@ -6,22 +6,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{
-  background:black;
-  color:white;
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
   overflow:hidden;
-  transition:background 6s ease;
+  background:black;
+  font-family:'Segoe UI',sans-serif;
 }
 
-/* ESCENAS */
+canvas{
+  position:absolute;
+  top:0;left:0;
+}
+
 .scene{
   position:absolute;
   inset:0;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
+  flex-direction:column;
   opacity:0;
   pointer-events:none;
   transition:opacity 2s;
@@ -31,51 +37,77 @@ body{
   pointer-events:auto;
 }
 
-/* NIEVE */
-.snow{
-  position:absolute;
-  inset:0;
-  background-image:url("snow.png"); /* SUBE snow.png */
-  background-size:300px;
-  animation:snow 20s linear infinite;
-  pointer-events:none;
-}
-@keyframes snow{
-  from{background-position:0 0}
-  to{background-position:0 1000px}
+button{
+  padding:18px 40px;
+  font-size:20px;
+  border-radius:40px;
+  border:none;
+  cursor:pointer;
+  background:white;
+  color:black;
+  margin-top:30px;
 }
 
-/* BOTONES */
-button{
-  padding:16px 36px;
-  border:none;
-  border-radius:30px;
-  background:#fff;
-  color:#000;
-  font-size:18px;
-  cursor:pointer;
-  margin-top:30px;
+/* ÁRBOL */
+.tree{
+  width:0;
+  height:0;
+  border-left:120px solid transparent;
+  border-right:120px solid transparent;
+  border-bottom:200px solid #0a7a2a;
+  position:relative;
+}
+.tree::after{
+  content:"";
+  position:absolute;
+  top:180px;
+  left:-20px;
+  width:40px;
+  height:50px;
+  background:#5a3b1e;
+}
+
+/* ADORNOS */
+.ornament{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:red;
+  position:absolute;
 }
 
 /* SANTA */
 #santa{
-  width:160px;
-  animation:fly 20s linear infinite;
+  position:absolute;
+  top:20%;
+  left:-200px;
+  display:flex;
+  align-items:center;
+  animation:fly 40s linear forwards;
+}
+#face{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:url("TU_CARA.png") center/cover;
+  margin-right:10px;
+}
+#body{
+  font-size:60px;
 }
 @keyframes fly{
-  from{transform:translateX(-200px)}
-  to{transform:translateX(120vw)}
+  to{left:120%;}
 }
 
 /* TEXTO */
 .message{
-  font-size:32px;
+  font-size:36px;
+  color:white;
   text-align:center;
   max-width:80%;
-  margin:20px;
-  animation:fadeIn 3s;
+  animation:fade 3s;
 }
-@keyframes fadeIn{
+@keyframes fade{
   from{opacity:0}
   to{opacity:1}
 }
@@ -88,101 +120,154 @@ button{
   display:none;
 }
 
+/* CASA */
+.house{
+  width:300px;
+  height:200px;
+  background:#b33;
+  position:relative;
+}
+.roof{
+  width:0;height:0;
+  border-left:160px solid transparent;
+  border-right:160px solid transparent;
+  border-bottom:120px solid #822;
+  position:absolute;
+  top:-120px;
+}
+.chimney{
+  width:40px;height:80px;
+  background:#444;
+  position:absolute;
+  right:40px;
+  top:-80px;
+}
+
 /* REGALO */
 #gift{
-  font-size:90px;
+  font-size:100px;
   cursor:pointer;
+}
+
+/* CORAZÓN */
+.heart{
+  font-size:120px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- MUSICA (CAMBIA EL ARCHIVO) -->
-<audio id="music" loop>
-  <source src="musica.mp3">
-</audio>
+<canvas id="snow"></canvas>
 
-<div class="snow"></div>
+<audio id="music" loop>
+  <source src="TU_MUSICA.mp3">
+</audio>
 
 <!-- ESCENA 1 -->
 <div id="scene1" class="scene active">
-  <h1>❄️ Bienvenida ❄️</h1>
-  <p>La magia está por comenzar</p>
-  <button onclick="startJourney()">Iniciar viaje navideño</button>
+  <div class="tree">
+    <div class="ornament" style="top:40px;left:-20px"></div>
+    <div class="ornament" style="top:80px;left:30px;background:gold"></div>
+    <div class="ornament" style="top:120px;left:-10px;background:blue"></div>
+  </div>
+  <button onclick="start()">Iniciar viaje navideño</button>
 </div>
 
 <!-- ESCENA 2 -->
 <div id="scene2" class="scene">
-  <img id="santa" src="santa.png"> <!-- TU SANTA -->
-  <div id="textBox" class="message"></div>
-  <img id="photoBox" class="photo">
+  <div id="santa">
+    <div id="face"></div>
+    <div id="body">🎅</div>
+  </div>
+  <div id="text" class="message"></div>
+  <img id="photo" class="photo">
 </div>
 
 <!-- ESCENA 3 -->
 <div id="scene3" class="scene">
+  <div class="house">
+    <div class="roof"></div>
+    <div class="chimney"></div>
+  </div>
   <div id="gift">🎁</div>
-  <p>Haz clic en el regalo</p>
 </div>
 
 <!-- ESCENA FINAL -->
 <div id="scene4" class="scene">
-  <h1>❤️</h1>
-  <p>Aquí va tu mensaje final</p>
-  <img class="photo" src="final.jpg" style="display:block">
+  <div class="heart">❤️</div>
+  <p>Aquí va tu mensaje</p>
+  <img src="FINAL.jpg" class="photo" style="display:block">
 </div>
 
 <script>
+/* NIEVE */
+const canvas=document.getElementById("snow");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+let flakes=[];
+for(let i=0;i<150;i++){
+  flakes.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()+0.5});
+}
+function snow(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="white";
+  flakes.forEach(f=>{
+    ctx.beginPath();
+    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+    ctx.fill();
+    f.y+=f.s;
+    if(f.y>canvas.height)f.y=0;
+  });
+  requestAnimationFrame(snow);
+}
+snow();
+
+/* ESCENAS */
 const music=document.getElementById("music");
-
-function startJourney(){
-  music.play();
-  document.body.style.background="#f5f5f5";
-  changeScene(1,2);
-  startMessages();
-}
-
-function changeScene(from,to){
-  document.getElementById("scene"+from).classList.remove("active");
-  document.getElementById("scene"+to).classList.add("active");
-}
-
-/* MENSAJES Y FOTOS (EDITA AQUÍ) */
 const messages=[
-  {text:"Este viaje es solo para ti ❤️",img:"foto1.jpg"},
-  {text:"Gracias por existir ✨",img:"foto2.jpg"},
-  {text:"Cada momento contigo es magia 🎄",img:"foto3.jpg"},
-  {text:"Eres mi regalo favorito 🎁",img:"foto4.jpg"},
-  {text:"Te pienso siempre 💭",img:"foto5.jpg"},
-  {text:"Eres mi hogar 🏠",img:"foto6.jpg"},
-  {text:"Y esto es solo el comienzo 💖",img:"foto7.jpg"}
+  "Mensaje 1","Mensaje 2","Mensaje 3",
+  "Mensaje 4","Mensaje 5","Mensaje 6","Mensaje 7"
 ];
-
 let i=0;
-function startMessages(){
+
+function start(){
+  music.play();
+  document.body.style.transition="background 8s";
+  document.body.style.background="white";
+  show(1,2);
+  run();
+}
+
+function show(a,b){
+  document.getElementById("scene"+a).classList.remove("active");
+  document.getElementById("scene"+b).classList.add("active");
+}
+
+function run(){
   if(i>=messages.length){
-    changeScene(2,3);
+    show(2,3);
     return;
   }
-  const box=document.getElementById("textBox");
-  const photo=document.getElementById("photoBox");
-
-  box.innerText=messages[i].text;
-  photo.style.display="none";
-
+  const t=document.getElementById("text");
+  const p=document.getElementById("photo");
+  t.innerText=messages[i];
+  p.style.display="none";
   setTimeout(()=>{
-    box.innerText="";
-    photo.src=messages[i].img;
-    photo.style.display="block";
+    t.innerText="";
+    p.src="FOTO"+(i+1)+".jpg";
+    p.style.display="block";
     i++;
-    setTimeout(startMessages,15000);
+    setTimeout(run,15000);
   },15000);
 }
 
 document.getElementById("gift").onclick=()=>{
-  changeScene(3,4);
+  show(3,4);
 };
 </script>
 
 </body>
 </html>
+
