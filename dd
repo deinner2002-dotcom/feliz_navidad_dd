@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Viaje Navideño</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{
+  background:black;
+  color:white;
+  overflow:hidden;
+  transition:background 6s ease;
+}
+.scene{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 2s;
+}
+.scene.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* Nieve */
+.snow{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-image:url("https://i.imgur.com/8bKQX2G.png");
+  animation:snow 20s linear infinite;
+  pointer-events:none;
+}
+@keyframes snow{
+  from{background-position:0 0}
+  to{background-position:0 1000px}
+}
+
+/* Botón */
+button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#fff;
+  color:#000;
+  cursor:pointer;
+  margin-top:30px;
+}
+
+/* Santa */
+#santa{
+  width:150px;
+  animation:fly 20s linear infinite;
+}
+@keyframes fly{
+  from{transform:translateX(-200px)}
+  to{transform:translateX(120vw)}
+}
+
+/* Texto */
+.message{
+  font-size:32px;
+  text-align:center;
+  margin:20px;
+  animation:fadeIn 3s;
+}
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* Fotos */
+.photo{
+  max-width:80%;
+  max-height:60%;
+  border-radius:20px;
+}
+
+/* Regalo */
+#gift{
+  font-size:80px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO -->
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/audio/2022/11/21/audio_6b5f47cdd5.mp3">
+</audio>
+
+<div class="snow"></div>
+
+<!-- ESCENA 1 -->
+<div id="scene1" class="scene active">
+  <h1>❄️ Bienvenida ❄️</h1>
+  <p>La magia está por comenzar...</p>
+  <button onclick="startJourney()">Iniciar viaje navideño</button>
+</div>
+
+<!-- ESCENA 2 -->
+<div id="scene2" class="scene">
+  <img id="santa" src="https://i.imgur.com/Hh8ZQ0N.png">
+  <div id="textBox" class="message"></div>
+  <img id="photoBox" class="photo">
+</div>
+
+<!-- ESCENA 3 -->
+<div id="scene3" class="scene">
+  <div id="gift">🎁</div>
+  <p>(Haz clic en el regalo)</p>
+</div>
+
+<!-- ESCENA FINAL -->
+<div id="scene4" class="scene">
+  <h1>❤️</h1>
+  <p>Aquí va tu mensaje final</p>
+  <img class="photo" src="https://via.placeholder.com/400">
+</div>
+
+<script>
+const music=document.getElementById("music");
+
+function startJourney(){
+  music.play();
+  document.body.style.background="white";
+  changeScene(1,2);
+  startMessages();
+}
+
+function changeScene(from,to){
+  document.getElementById("scene"+from).classList.remove("active");
+  document.getElementById("scene"+to).classList.add("active");
+}
+
+const messages=[
+  {text:"Este viaje es solo para ti ❤️",img:"https://via.placeholder.com/600"},
+  {text:"Gracias por existir ✨",img:"https://via.placeholder.com/600"},
+  {text:"Cada momento contigo es magia 🎄",img:"https://via.placeholder.com/600"},
+  {text:"Eres mi regalo favorito 🎁",img:"https://via.placeholder.com/600"},
+  {text:"Te pienso siempre 💭",img:"https://via.placeholder.com/600"},
+  {text:"Eres mi hogar 🏠",img:"https://via.placeholder.com/600"},
+  {text:"Y esto es solo el comienzo 💖",img:"https://via.placeholder.com/600"}
+];
+
+let i=0;
+function startMessages(){
+  if(i>=messages.length){
+    changeScene(2,3);
+    return;
+  }
+  const box=document.getElementById("textBox");
+  const photo=document.getElementById("photoBox");
+  box.innerText=messages[i].text;
+  photo.style.display="none";
+
+  setTimeout(()=>{
+    box.innerText="";
+    photo.src=messages[i].img;
+    photo.style.display="block";
+    i++;
+    setTimeout(startMessages,15000);
+  },15000);
+}
+
+document.getElementById("gift").onclick=()=>{
+  changeScene(3,4);
+};
+</script>
+
+</body>
+</html>
