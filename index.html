@@ -71,7 +71,7 @@ body{
   to{opacity:1;transform:none}
 }
 
-/* IMAGEN FLOTANTE (RECORRIDO) */
+/* IMAGEN FLOTANTE */
 .floating-img{
   position:absolute;
   top:6%;
@@ -103,7 +103,7 @@ body{
 
 /* REGALO */
 .gift{
-  width:200px;
+  width:220px;
   cursor:pointer;
   animation:pulse 2s infinite;
 }
@@ -113,14 +113,13 @@ body{
 }
 
 /* CORAZÓN */
-.heart{width:220px;margin-bottom:20px}
+.heart{width:240px;margin-bottom:20px}
 
 /* FINAL */
-.final img{border-radius:18px}
-.final-row{
-  display:flex;
-  gap:14px;
-  margin-top:20px;
+.final img{
+  width:95%;
+  max-width:520px;
+  border-radius:22px;
 }
 
 /* MOBILE */
@@ -135,7 +134,7 @@ body{
 
 <audio id="audio" src="audio/cascabeles.mp3" loop></audio>
 
-<!-- ESCENA 1 -->
+<!-- ESCENA 1 INTRO -->
 <div class="scene active" id="scene1">
   <div class="snow"></div>
   <button class="btn" onclick="startJourney()">🎄 Iniciar viaje navideño</button>
@@ -144,8 +143,6 @@ body{
 <!-- ESCENA 2 VIAJE -->
 <div class="scene" id="scene2" style="background:#020824">
   <div class="snow"></div>
-
-  <!-- TU IMAGEN FLOTANTE -->
   <img src="img/flotante.png" class="floating-img">
 
   <div class="cycle-container">
@@ -154,37 +151,22 @@ body{
   </div>
 </div>
 
-<!-- ESCENA 3 TECHO -->
+<!-- ESCENA 3 REGALO -->
 <div class="scene" id="scene3">
-  <div class="snow"></div>
-  <p class="text">❄️ El viaje termina… en casa</p>
-</div>
-
-<!-- ESCENA 4 INTERIOR -->
-<div class="scene" id="scene4">
-  <p class="text">🎄 Dentro todo está preparado…</p>
-</div>
-
-<!-- ESCENA 5 REGALO -->
-<div class="scene" id="scene5">
   <img src="img/regalo.png" class="gift" onclick="openGift()">
   <p class="text">🎁 Toca el regalo</p>
 </div>
 
-<!-- ESCENA 6 CORAZÓN -->
-<div class="scene" id="scene6">
+<!-- ESCENA 4 CORAZÓN -->
+<div class="scene" id="scene4">
   <img src="img/corazon.png" class="heart">
   <p class="text">💖 Aquí va tu mensaje editable</p>
   <button class="btn-light" onclick="goFinal()">💡 Ya es hora…</button>
 </div>
 
-<!-- ESCENA 7 FINAL -->
-<div class="scene final" id="scene7">
-  <img src="img/final-grande.jpg" style="width:90%">
-  <div class="final-row">
-    <img src="img/final-1.jpg" width="100">
-    <img src="img/final-2.jpg" width="100">
-  </div>
+<!-- ESCENA 5 FINAL -->
+<div class="scene final" id="scene5">
+  <img src="img/final-grande.jpg">
 </div>
 
 <script>
@@ -211,7 +193,55 @@ const images=[
   "img/ciclo2.jpg",
   "img/ciclo3.jpg"
 ];
-let i=
+let i=0;
+
+function startCycles(){
+  if(i>=3){
+    setTimeout(()=>showScene('scene3'),2000);
+    return;
+  }
+
+  const t=document.getElementById('cycleText');
+  const img=document.getElementById('cycleImg');
+
+  t.innerText=texts[i];
+  img.style.display='none';
+
+  setTimeout(()=>{
+    img.src=images[i];
+    img.style.display='block';
+  },10000);
+
+  setTimeout(()=>{
+    i++;
+    startCycles();
+  },20000);
+}
+
+/* REGALO */
+let clicks=0;
+function openGift(){
+  clicks++;
+  if(clicks>=3) showScene('scene4');
+}
+
+function goFinal(){
+  showScene('scene5');
+}
+
+/* NIEVE */
+document.querySelectorAll('.snow').forEach(layer=>{
+  for(let i=0;i<70;i++){
+    const s=document.createElement('span');
+    s.style.left=Math.random()*100+'%';
+    s.style.animationDuration=3+Math.random()*6+'s';
+    layer.appendChild(s);
+  }
+});
+</script>
+
+</body>
+</html>
 
 
 
