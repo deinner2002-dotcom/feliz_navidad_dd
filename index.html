@@ -100,8 +100,203 @@ canvas{position:absolute;inset:0;z-index:1}
   margin-left:15px;
   position:relative;
 }
-.sant
+.santa-face{
+  position:absolute;
+  top:-55px;left:50%;
+  transform:translateX(-50%);
+  width:60px;height:60px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid white;
+  background:white;
+}
+.santa-face img{width:100%;height:100%;object-fit:cover}
+.santa-hat{
+  position:absolute;
+  top:-85px;left:50%;
+  transform:translateX(-50%);
+  width:65px;height:35px;
+  background:red;
+  border-radius:40px 40px 0 0;
+}
 
+/* ===== TEXTO ===== */
+#magicText{
+  position:absolute;
+  top:15%;
+  width:90%;
+  text-align:center;
+  font-size:24px;
+  color:white;
+  text-shadow:0 0 15px white;
+  opacity:0;
+  transition:opacity 1.5s;
+}
+
+/* ===== FOTO ===== */
+#photoBox{
+  position:absolute;
+  bottom:12%;
+  width:260px;height:170px;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 0 25px rgba(255,255,255,.8);
+  opacity:0;
+  transition:opacity 1.5s;
+}
+#photoBox img{width:100%;height:100%;object-fit:cover}
+
+/* ===== REGALO ===== */
+#gift{
+  width:200px;height:200px;
+  background:#c00;
+  border-radius:20px;
+  box-shadow:0 0 30px red;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ===== FINAL ===== */
+.mainPhoto{
+  width:240px;height:240px;
+  border-radius:25px;
+  object-fit:cover;
+  box-shadow:0 0 30px white;
+}
+.finalPhotos{
+  display:flex;
+  gap:15px;
+  margin-top:15px;
+}
+.finalPhotos img{
+  width:110px;height:110px;
+  border-radius:18px;
+  object-fit:cover;
+  box-shadow:0 0 20px white;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="snow"></canvas>
+
+<!-- ESCENA 1 -->
+<div id="scene1" class="scene">
+  <div class="tree">
+    <div class="star">⭐</div>
+    <div class="layer l1"></div>
+    <div class="layer l2"></div>
+    <div class="layer l3"></div>
+  </div>
+  <button class="btn" onclick="startJourney()">Iniciar viaje navideño</button>
+</div>
+
+<!-- ESCENA 2 -->
+<div id="scene2" class="scene hidden">
+  <div id="magicText"></div>
+  <div id="photoBox"><img src=""></div>
+
+  <div id="santa">
+    <div class="reno"></div>
+    <div class="reno"></div>
+    <div class="reno"></div>
+    <div class="trineo">
+      <div class="santa-body">
+        <div class="santa-hat"></div>
+        <div class="santa-face">
+          <img src="TU_CARA.png">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CASA -->
+<div id="sceneHouse" class="scene hidden">
+  <div id="gift">
+    <button class="btn" onclick="openGift()">Abrir</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div id="sceneFinal" class="scene hidden">
+  <img class="mainPhoto" src="fotoFinal.jpg">
+  <div class="finalPhotos">
+    <img src="fotoA.jpg">
+    <img src="fotoB.jpg">
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="cascabeles.mp3">
+</audio>
+
+<script>
+/* NIEVE */
+const c=document.getElementById("snow"),x=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+let f=[];
+for(let i=0;i<200;i++)f.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*3+1,s:Math.random()*1});
+function snow(){
+  x.clearRect(0,0,c.width,c.height);
+  x.fillStyle="white";
+  f.forEach(p=>{
+    x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fill();
+    p.y+=p.s;if(p.y>c.height)p.y=0;
+  });
+  requestAnimationFrame(snow);
+}
+snow();
+
+/* SECUENCIA */
+const texts=[
+ "Desde que llegaste todo cambió",
+ "Cada recuerdo contigo es magia",
+ "Tu sonrisa ilumina mis días",
+ "Eres mi mejor regalo",
+ "Gracias por existir",
+ "Contigo quiero todo",
+ "Este es mi corazón"
+];
+const photos=["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg","foto6.jpg","foto7.jpg"];
+let i=0;
+
+function startJourney(){
+  music.play();
+  scene1.classList.add("hidden");
+  scene2.classList.remove("hidden");
+  run();
+}
+function run(){
+  if(i>=7){
+    setTimeout(()=>{
+      scene2.classList.add("hidden");
+      sceneHouse.classList.remove("hidden");
+    },8000);
+    return;
+  }
+  magicText.innerText=texts[i];
+  magicText.style.opacity=1;
+  photoBox.style.opacity=0;
+
+  setTimeout(()=>{
+    magicText.style.opacity=0;
+    photoBox.querySelector("img").src=photos[i];
+    photoBox.style.opacity=1;
+    i++;
+    setTimeout(run,8000);
+  },8000);
+}
+function openGift(){
+  sceneHouse.classList.add("hidden");
+  sceneFinal.classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>
 
 
 
