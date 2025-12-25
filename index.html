@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Viaje Navideño</title>
+<title>Viaje</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -14,12 +14,11 @@ body{
   color:white;
 }
 
-/* ESCENA */
+/* FONDO */
 #escena{
   position:fixed;
   inset:0;
-  background:linear-gradient(#000,#001933);
-  transition:background 4s;
+  background:linear-gradient(#000,#001a33);
 }
 
 /* ESTRELLAS */
@@ -35,8 +34,8 @@ body{
 .nieve{
   position:absolute;
   top:-10px;
-  width:5px;
-  height:5px;
+  width:4px;
+  height:4px;
   background:white;
   border-radius:50%;
   animation:caer linear infinite;
@@ -45,15 +44,15 @@ body{
   to{transform:translateY(110vh);}
 }
 
-/* IMAGEN VIAJERA */
+/* IMAGEN FLOTANTE (TU IMAGEN) */
 #viajero{
   position:absolute;
-  top:8%;
+  top:10%;
   left:-40%;
   width:38vw;
   max-width:180px;
   animation:viajar 120s linear infinite;
-  z-index:1;
+  z-index:1;            /* NO tapa */
   pointer-events:none;
 }
 @keyframes viajar{
@@ -64,13 +63,14 @@ body{
 /* TEXTO */
 #texto{
   position:absolute;
-  bottom:22%;
+  bottom:24%;
   width:100%;
   text-align:center;
   font-size:1.5em;
+  padding:0 12px;
   opacity:0;
   z-index:3;
-  padding:0 10px;
+  transition:opacity 2s;
 }
 
 /* FOTO */
@@ -81,21 +81,22 @@ body{
   transform:translateX(-50%);
   width:82vw;
   max-width:320px;
-  border-radius:16px;
+  border-radius:18px;
   box-shadow:0 0 25px rgba(255,255,255,.4);
   opacity:0;
   z-index:3;
+  transition:opacity 2s;
 }
 
-/* CASA */
+/* CASA FINAL */
 #casa{
   display:none;
   position:fixed;
   inset:0;
-  background:#1a0f08;
+  background:#1a1208;
   z-index:4;
   text-align:center;
-  padding-top:15vh;
+  padding-top:18vh;
 }
 
 /* REGALO */
@@ -108,16 +109,15 @@ body{
 #corazon{
   display:none;
   font-size:2em;
-  margin-top:20px;
-  padding:20px;
+  margin:25px;
 }
 
 /* BOTÓN LUZ */
 #botonLuz{
   display:none;
   margin:30px auto;
-  padding:14px 26px;
-  background:radial-gradient(circle,#fff700,#ff0000);
+  padding:14px 28px;
+  background:radial-gradient(circle,#fffacd,#ffd700);
   border-radius:40px;
   font-size:1.2em;
   color:black;
@@ -137,7 +137,7 @@ body{
 #final img{
   width:85vw;
   max-width:360px;
-  border-radius:20px;
+  border-radius:22px;
   box-shadow:0 0 30px gold;
 }
 </style>
@@ -183,15 +183,11 @@ for(let i=0;i<80;i++){
   document.body.appendChild(n);
 }
 
-/* TEXTO + FOTOS */
+/* TEXTOS + FOTOS (3 VECES, ENCADENADO) */
 const textos=[
-"Mensaje 1",
-"Mensaje 2",
-"Mensaje 3",
-"Mensaje 4",
-"Mensaje 5",
-"Mensaje 6",
-"Mensaje 7"
+  "Mensaje uno",
+  "Mensaje dos",
+  "Mensaje tres"
 ];
 
 let paso=0;
@@ -204,28 +200,39 @@ document.body.addEventListener("click",()=>{
 },{once:true});
 
 function iniciar(){
-  if(paso>=7){
+  if(paso >= 3){
     document.getElementById("casa").style.display="block";
     return;
   }
 
-  texto.innerText=textos[paso];
-  texto.style.opacity=1;
-  foto.style.opacity=0;
+  // mostrar texto
+  texto.innerText = textos[paso];
+  texto.style.opacity = 1;
+  foto.style.opacity = 0;
 
+  // texto 10s
   setTimeout(()=>{
-    texto.style.opacity=0;
-    foto.src=`foto${paso+1}.jpg`;
-    foto.style.opacity=1;
-  },8000);
+    texto.style.opacity = 0;
 
-  setTimeout(()=>{
-    paso++;
-    iniciar();
-  },16000);
+    // pequeño respiro visual
+    setTimeout(()=>{
+      // mostrar foto
+      foto.src = `foto${paso + 1}.jpg`;
+      foto.style.opacity = 1;
+
+      // foto 10s
+      setTimeout(()=>{
+        foto.style.opacity = 0;
+        paso++;
+        iniciar();
+      }, 10000);
+
+    }, 1000);
+
+  }, 10000);
 }
 
-/* REGALO */
+/* REGALO (3 CLICS) */
 let clicks=0;
 document.getElementById("regalo").onclick=()=>{
   clicks++;
@@ -245,6 +252,7 @@ function mostrarFinal(){
 
 </body>
 </html>
+
 
 
 
