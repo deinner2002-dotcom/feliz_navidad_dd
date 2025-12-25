@@ -132,7 +132,7 @@ body{
 
 <body>
 
-<audio id="audio" src="audio/cascabeles.mp3" loop></audio>
+<audio id="audio" src="./audio/cascabeles.mp3" loop></audio>
 
 <!-- ESCENA 1 INTRO -->
 <div class="scene active" id="scene1">
@@ -143,7 +143,7 @@ body{
 <!-- ESCENA 2 VIAJE -->
 <div class="scene" id="scene2" style="background:#020824">
   <div class="snow"></div>
-  <img src="img/flotante.png" class="floating-img">
+  <img src="./img/flotante.png" class="floating-img">
 
   <div class="cycle-container">
     <div id="cycleText" class="text"></div>
@@ -153,7 +153,7 @@ body{
 
 <!-- ESCENA 3 REGALO -->
 <div class="scene" id="scene3">
-  <img src="img/regalo.png" class="gift" onclick="openGift()">
+  <img src="./img/regalo.png" class="gift" onclick="openGift()">
   <p class="text">🎁 Toca el regalo</p>
 </div>
 
@@ -166,7 +166,7 @@ body{
 
 <!-- ESCENA 5 FINAL -->
 <div class="scene final" id="scene5">
-  <img src="img/final-grande.jpg">
+  <img src="./img/final-grande.jpg">
 </div>
 
 <script>
@@ -189,9 +189,9 @@ const texts=[
   "Aunque esta Navidad estemos lejos, el mejor regalo es seguir teniéndote a mi lado. Tu amor me acompaña siempre, sin importar la distancia. Te amo 🎄❤️"
 ];
 const images=[
-  "img/ciclo1.jpg",
-  "img/ciclo2.jpg",
-  "img/ciclo3.jpg"
+  "./img/ciclo1.jpg",
+  "./img/ciclo2.jpg",
+  "./img/ciclo3.jpg"
 ];
 let i=0;
 
