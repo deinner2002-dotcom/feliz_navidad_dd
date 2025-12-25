@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Viaje Navideño</title>
+<title>Viaje Navideño Épico</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -16,142 +16,176 @@ html,body{
   font-family:'Segoe UI',sans-serif;
 }
 
-canvas{
-  position:absolute;
-  top:0;left:0;
-}
-
+/* ================= ESCENAS ================= */
 .scene{
   position:absolute;
   inset:0;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
   opacity:0;
   pointer-events:none;
-  transition:opacity 2s;
+  transition:opacity 2.5s ease;
 }
 .scene.active{
   opacity:1;
   pointer-events:auto;
 }
 
+/* ================= CANVAS ================= */
+canvas{
+  position:absolute;
+  inset:0;
+  z-index:1;
+}
+
+/* ================= BOTONES ================= */
 button{
-  padding:18px 40px;
+  padding:18px 44px;
   font-size:20px;
-  border-radius:40px;
   border:none;
+  border-radius:40px;
   cursor:pointer;
   background:white;
   color:black;
-  margin-top:30px;
+  box-shadow:0 0 25px rgba(255,255,255,.6);
 }
 
-/* ÁRBOL */
-.tree{
-  width:0;
-  height:0;
-  border-left:120px solid transparent;
-  border-right:120px solid transparent;
-  border-bottom:200px solid #0a7a2a;
-  position:relative;
-}
-.tree::after{
-  content:"";
-  position:absolute;
-  top:180px;
-  left:-20px;
-  width:40px;
-  height:50px;
-  background:#5a3b1e;
-}
-
-/* ADORNOS */
-.ornament{
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  background:red;
-  position:absolute;
-}
-
-/* SANTA */
-#santa{
-  position:absolute;
-  top:20%;
-  left:-200px;
-  display:flex;
-  align-items:center;
-  animation:fly 40s linear forwards;
-}
-#face{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background:url("TU_CARA.png") center/cover;
-  margin-right:10px;
-}
-#body{
-  font-size:60px;
-}
-@keyframes fly{
-  to{left:120%;}
-}
-
-/* TEXTO */
+/* ================= TEXTO ================= */
 .message{
-  font-size:36px;
-  color:white;
+  position:relative;
+  z-index:5;
+  font-size:38px;
   text-align:center;
   max-width:80%;
-  animation:fade 3s;
+  color:white;
+  text-shadow:0 0 20px rgba(255,255,255,.8);
+  animation:fadeIn 3s;
 }
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:none}
 }
 
-/* FOTO */
+/* ================= FOTO ================= */
 .photo{
+  position:relative;
+  z-index:5;
   max-width:70%;
   max-height:60%;
   border-radius:20px;
+  box-shadow:0 0 40px rgba(255,255,255,.6);
   display:none;
 }
 
-/* CASA */
-.house{
-  width:300px;
-  height:200px;
-  background:#b33;
+/* ================= ARBOL REALISTA ================= */
+.tree{
   position:relative;
+  width:220px;
+  height:300px;
+  background:linear-gradient(#0b6b2a,#0a4);
+  clip-path:polygon(50% 0, 0 100%, 100% 100%);
+  filter:drop-shadow(0 0 20px rgba(0,255,120,.5));
+}
+.trunk{
+  width:50px;height:60px;
+  background:#5a3b1e;
+  margin-top:-10px;
+}
+.light{
+  width:12px;height:12px;
+  border-radius:50%;
+  position:absolute;
+  animation:blink 2s infinite alternate;
+}
+@keyframes blink{
+  from{opacity:.4}
+  to{opacity:1}
+}
+
+/* ================= CIELO ================= */
+#sky{
+  background:radial-gradient(circle at bottom, #0a2a66, #000814);
+}
+
+/* ================= SANTA ================= */
+#santaGroup{
+  position:absolute;
+  top:20%;
+  left:-40%;
+  display:flex;
+  align-items:center;
+  animation:fly 60s linear forwards;
+  z-index:6;
+}
+@keyframes fly{
+  to{left:120%}
+}
+#renos{font-size:60px;margin-right:20px}
+#trineo{font-size:80px;position:relative}
+#face{
+  position:absolute;
+  top:18px;
+  left:30px;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:url("TU_CARA.png") center/cover;
+  box-shadow:0 0 10px rgba(255,255,255,.8);
+}
+
+/* ================= CASA ================= */
+.house{
+  position:relative;
+  width:320px;
+  height:220px;
+  background:#b33;
+  box-shadow:0 0 30px rgba(255,255,255,.4);
 }
 .roof{
-  width:0;height:0;
-  border-left:160px solid transparent;
-  border-right:160px solid transparent;
-  border-bottom:120px solid #822;
   position:absolute;
-  top:-120px;
+  top:-140px;
+  width:0;height:0;
+  border-left:170px solid transparent;
+  border-right:170px solid transparent;
+  border-bottom:140px solid #822;
 }
 .chimney{
-  width:40px;height:80px;
-  background:#444;
   position:absolute;
   right:40px;
-  top:-80px;
+  top:-90px;
+  width:40px;height:90px;
+  background:#444;
 }
 
-/* REGALO */
+/* ================= REGALO ================= */
 #gift{
-  font-size:100px;
+  font-size:110px;
   cursor:pointer;
+  z-index:5;
 }
 
-/* CORAZÓN */
+/* ================= CORAZÓN ================= */
 .heart{
-  font-size:120px;
+  font-size:140px;
+  animation:pulse 1.5s infinite alternate;
+}
+@keyframes pulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.1)}
+}
+
+/* ================= FINAL ================= */
+.final{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:30px;
+}
+.final img{
+  border-radius:20px;
+  box-shadow:0 0 40px rgba(255,255,255,.7);
 }
 </style>
 </head>
@@ -159,6 +193,7 @@ button{
 <body>
 
 <canvas id="snow"></canvas>
+<canvas id="stars"></canvas>
 
 <audio id="music" loop>
   <source src="TU_MUSICA.mp3">
@@ -167,18 +202,19 @@ button{
 <!-- ESCENA 1 -->
 <div id="scene1" class="scene active">
   <div class="tree">
-    <div class="ornament" style="top:40px;left:-20px"></div>
-    <div class="ornament" style="top:80px;left:30px;background:gold"></div>
-    <div class="ornament" style="top:120px;left:-10px;background:blue"></div>
+    <div class="light" style="top:40px;left:90px;background:red"></div>
+    <div class="light" style="top:90px;left:40px;background:gold"></div>
+    <div class="light" style="top:130px;left:130px;background:blue"></div>
   </div>
+  <div class="trunk"></div>
   <button onclick="start()">Iniciar viaje navideño</button>
 </div>
 
 <!-- ESCENA 2 -->
 <div id="scene2" class="scene">
-  <div id="santa">
-    <div id="face"></div>
-    <div id="body">🎅</div>
+  <div id="santaGroup">
+    <div id="renos">🦌🦌🦌</div>
+    <div id="trineo">🛷<div id="face"></div></div>
   </div>
   <div id="text" class="message"></div>
   <img id="photo" class="photo">
@@ -193,61 +229,97 @@ button{
   <div id="gift">🎁</div>
 </div>
 
-<!-- ESCENA FINAL -->
+<!-- ESCENA 4 -->
 <div id="scene4" class="scene">
   <div class="heart">❤️</div>
-  <p>Aquí va tu mensaje</p>
-  <img src="FINAL.jpg" class="photo" style="display:block">
+  <p class="message">TU MENSAJE FINAL AQUÍ</p>
+  <img src="foto_corazon.jpg" class="photo" style="display:block">
+  <button onclick="showFinal()">Ya es hora…</button>
+</div>
+
+<!-- ESCENA 5 FINAL -->
+<div id="scene5" class="scene">
+  <div class="final">
+    <img src="final_pequeña1.jpg" width="180">
+    <img src="final_grande.jpg" width="420">
+    <img src="final_pequeña2.jpg" width="180">
+  </div>
 </div>
 
 <script>
-/* NIEVE */
-const canvas=document.getElementById("snow");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+/* ================= NIEVE ================= */
+const snow=document.getElementById("snow");
+const sctx=snow.getContext("2d");
+snow.width=innerWidth;
+snow.height=innerHeight;
 let flakes=[];
-for(let i=0;i<150;i++){
-  flakes.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()+0.5});
+for(let i=0;i<200;i++){
+  flakes.push({x:Math.random()*snow.width,y:Math.random()*snow.height,r:Math.random()*3+1,s:Math.random()+0.5});
 }
-function snow(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="white";
+function drawSnow(){
+  sctx.clearRect(0,0,snow.width,snow.height);
+  sctx.fillStyle="white";
   flakes.forEach(f=>{
-    ctx.beginPath();
-    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    ctx.fill();
+    sctx.beginPath();
+    sctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+    sctx.fill();
     f.y+=f.s;
-    if(f.y>canvas.height)f.y=0;
+    if(f.y>snow.height)f.y=0;
   });
-  requestAnimationFrame(snow);
+  requestAnimationFrame(drawSnow);
 }
-snow();
+drawSnow();
 
-/* ESCENAS */
+/* ================= ESTRELLAS ================= */
+const stars=document.getElementById("stars");
+const ctx=stars.getContext("2d");
+stars.width=innerWidth;
+stars.height=innerHeight;
+let st=[];
+for(let i=0;i<150;i++){
+  st.push({x:Math.random()*stars.width,y:Math.random()*stars.height,a:Math.random()});
+}
+function drawStars(){
+  ctx.clearRect(0,0,stars.width,stars.height);
+  ctx.fillStyle="white";
+  st.forEach(s=>{
+    ctx.globalAlpha=s.a;
+    ctx.fillRect(s.x,s.y,2,2);
+    s.a=Math.random();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* ================= LOGICA ================= */
 const music=document.getElementById("music");
 const messages=[
-  "Mensaje 1","Mensaje 2","Mensaje 3",
-  "Mensaje 4","Mensaje 5","Mensaje 6","Mensaje 7"
+  "Mensaje 1",
+  "Mensaje 2",
+  "Mensaje 3",
+  "Mensaje 4",
+  "Mensaje 5",
+  "Mensaje 6",
+  "Mensaje 7"
 ];
 let i=0;
 
 function start(){
   music.play();
   document.body.style.transition="background 8s";
-  document.body.style.background="white";
-  show(1,2);
-  run();
+  document.body.style.background="#0a2a66";
+  change(1,2);
+  sequence();
 }
 
-function show(a,b){
+function change(a,b){
   document.getElementById("scene"+a).classList.remove("active");
   document.getElementById("scene"+b).classList.add("active");
 }
 
-function run(){
+function sequence(){
   if(i>=messages.length){
-    show(2,3);
+    change(2,3);
     return;
   }
   const t=document.getElementById("text");
@@ -256,18 +328,19 @@ function run(){
   p.style.display="none";
   setTimeout(()=>{
     t.innerText="";
-    p.src="FOTO"+(i+1)+".jpg";
+    p.src="foto"+(i+1)+".jpg";
     p.style.display="block";
     i++;
-    setTimeout(run,15000);
+    setTimeout(sequence,15000);
   },15000);
 }
 
-document.getElementById("gift").onclick=()=>{
-  show(3,4);
-};
+document.getElementById("gift").onclick=()=>change(3,4);
+function showFinal(){change(4,5);}
 </script>
 
 </body>
 </html>
+
+
 
