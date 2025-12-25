@@ -3,251 +3,330 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Viaje</title>
+<title>Viaje Navideño</title>
+
+<!-- FUENTE NAVIDEÑA -->
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+/* =========================
+   RESET Y BASE
+========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 body{
+  font-family:'Mountains of Christmas', cursive;
   background:black;
-  overflow:hidden;
-  font-family:'Georgia',serif;
   color:white;
+  overflow:hidden;
 }
 
-/* FONDO */
-#escena{
+/* =========================
+   ESCENAS
+========================= */
+.scene{
   position:fixed;
   inset:0;
-  background:linear-gradient(#000,#001a33);
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.scene.active{
+  display:flex;
 }
 
-/* ESTRELLAS */
-.estrella{
+/* =========================
+   NIEVE
+========================= */
+.snow{
   position:absolute;
-  width:2px;
-  height:2px;
-  background:white;
-  opacity:.8;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
 }
-
-/* NIEVE */
-.nieve{
+.snow span{
   position:absolute;
-  top:-10px;
   width:4px;
   height:4px;
   background:white;
   border-radius:50%;
-  animation:caer linear infinite;
+  opacity:.8;
+  animation:fall linear infinite;
 }
-@keyframes caer{
-  to{transform:translateY(110vh);}
-}
-
-/* IMAGEN FLOTANTE (TU IMAGEN) */
-#viajero{
-  position:absolute;
-  top:10%;
-  left:-40%;
-  width:38vw;
-  max-width:180px;
-  animation:viajar 120s linear infinite;
-  z-index:1;            /* NO tapa */
-  pointer-events:none;
-}
-@keyframes viajar{
-  from{left:-40%;}
-  to{left:120%;}
+@keyframes fall{
+  from{transform:translateY(-10vh)}
+  to{transform:translateY(110vh)}
 }
 
-/* TEXTO */
-#texto{
-  position:absolute;
-  bottom:24%;
-  width:100%;
-  text-align:center;
-  font-size:1.5em;
-  padding:0 12px;
-  opacity:0;
-  z-index:3;
-  transition:opacity 2s;
-}
-
-/* FOTO */
-#foto{
-  position:absolute;
-  top:18%;
-  left:50%;
-  transform:translateX(-50%);
-  width:82vw;
-  max-width:320px;
-  border-radius:18px;
-  box-shadow:0 0 25px rgba(255,255,255,.4);
-  opacity:0;
-  z-index:3;
-  transition:opacity 2s;
-}
-
-/* CASA FINAL */
-#casa{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#1a1208;
-  z-index:4;
-  text-align:center;
-  padding-top:18vh;
-}
-
-/* REGALO */
-#regalo{
-  width:160px;
-  cursor:pointer;
-}
-
-/* CORAZÓN */
-#corazon{
-  display:none;
-  font-size:2em;
-  margin:25px;
-}
-
-/* BOTÓN LUZ */
-#botonLuz{
-  display:none;
-  margin:30px auto;
-  padding:14px 28px;
-  background:radial-gradient(circle,#fffacd,#ffd700);
+/* =========================
+   BOTONES
+========================= */
+.btn{
+  padding:16px 28px;
   border-radius:40px;
-  font-size:1.2em;
+  background:white;
   color:black;
+  border:none;
+  font-size:18px;
   cursor:pointer;
+  margin-top:30px;
+  z-index:5;
+}
+.btn-light{
+  background:transparent;
+  border:2px solid white;
+  color:white;
 }
 
-/* FINAL */
-#final{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:black;
-  z-index:6;
-  text-align:center;
-  padding-top:15vh;
+/* =========================
+   TEXTO
+========================= */
+.text{
+  font-size:22px;
+  padding:20px;
+  animation:textIn 2s;
 }
-#final img{
-  width:85vw;
-  max-width:360px;
-  border-radius:22px;
-  box-shadow:0 0 30px gold;
+@keyframes textIn{
+  from{opacity:0; transform:translateY(20px)}
+  to{opacity:1; transform:none}
+}
+
+/* =========================
+   IMAGEN FLOTANTE
+========================= */
+.floating-img{
+  position:absolute;
+  top:12%;
+  width:120px;
+  z-index:2;
+  animation:float 5s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-18px)}
+}
+
+/* =========================
+   CICLOS
+========================= */
+.cycle-container{
+  margin-top:180px;
+  z-index:3;
+}
+.cycle-img{
+  width:75%;
+  max-width:320px;
+  border-radius:16px;
+  margin-top:15px;
+  animation:fadeImg 2s;
+}
+@keyframes fadeImg{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* =========================
+   REGALO
+========================= */
+.gift{
+  width:180px;
+  cursor:pointer;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
+}
+
+/* =========================
+   CORAZÓN
+========================= */
+.heart{
+  width:200px;
+  margin-bottom:20px;
+}
+
+/* =========================
+   FINAL
+========================= */
+.final img{
+  border-radius:16px;
+}
+.final-row{
+  display:flex;
+  gap:12px;
+  margin-top:15px;
+}
+
+/* =========================
+   MOBILE OPTIMIZATION
+========================= */
+@media(min-width:768px){
+  .text{font-size:26px}
+  .floating-img{width:150px}
 }
 </style>
 </head>
 
 <body>
 
-<div id="escena"></div>
+<!-- AUDIO -->
+<audio id="audio" src="audio/cascabeles.mp3" loop></audio>
 
-<audio id="musica" src="musica.mp3" loop></audio>
-
-<img id="viajero" src="viajero.png">
-
-<div id="texto"></div>
-<img id="foto">
-
-<div id="casa">
-  <img id="regalo" src="https://i.imgur.com/1JQ9Z6p.png">
-  <div id="corazon">❤️ AQUÍ VA TU MENSAJE ❤️</div>
-  <div id="botonLuz" onclick="mostrarFinal()">ya es hora…</div>
+<!-- =========================
+     ESCENA 1 – INTRO
+========================= -->
+<div class="scene active" id="scene1">
+  <div class="snow"></div>
+  <h1 class="text">❄️</h1>
+  <button class="btn" onclick="startJourney()">🎄 Iniciar viaje navideño</button>
 </div>
 
-<div id="final">
-  <img src="foto_final.jpg">
+<!-- =========================
+     ESCENA 2 – VIAJE
+========================= -->
+<div class="scene" id="scene2" style="background:#020824">
+  <div class="snow"></div>
+
+  <!-- IMAGEN FLOTANTE (EDITABLE) -->
+  <img src="img/flotante.png" class="floating-img">
+
+  <!-- CONTENEDOR DE CICLOS -->
+  <div class="cycle-container">
+    <div id="cycleText" class="text"></div>
+    <img id="cycleImg" class="cycle-img" style="display:none">
+  </div>
+</div>
+
+<!-- =========================
+     ESCENA 3 – CASA
+========================= -->
+<div class="scene" id="scene3">
+  <div class="snow"></div>
+  <h2 class="text">🏠 Llegando a casa...</h2>
+</div>
+
+<!-- =========================
+     ESCENA 4 – REGALO
+========================= -->
+<div class="scene" id="scene4">
+  <img src="img/regalo.png" class="gift" onclick="openGift()">
+  <p class="text">🎁 Toca el regalo</p>
+</div>
+
+<!-- =========================
+     ESCENA 5 – CORAZÓN
+========================= -->
+<div class="scene" id="scene5">
+  <img src="img/corazon.png" class="heart">
+  <p class="text">💖 Aquí va tu mensaje editable</p>
+  <button class="btn-light" onclick="goFinal()">💡 Ya es hora…</button>
+</div>
+
+<!-- =========================
+     ESCENA 6 – FINAL
+========================= -->
+<div class="scene final" id="scene6">
+  <img src="img/final-grande.jpg" style="width:75%">
+  <div class="final-row">
+    <img src="img/final-1.jpg" width="90">
+    <img src="img/final-2.jpg" width="90">
+  </div>
 </div>
 
 <script>
-/* ESTRELLAS */
-for(let i=0;i<120;i++){
-  let e=document.createElement("div");
-  e.className="estrella";
-  e.style.left=Math.random()*100+"vw";
-  e.style.top=Math.random()*100+"vh";
-  document.body.appendChild(e);
+/* =========================
+   CONTROL DE ESCENAS
+========================= */
+const scenes=document.querySelectorAll('.scene');
+function showScene(id){
+  scenes.forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-/* NIEVE */
-for(let i=0;i<80;i++){
-  let n=document.createElement("div");
-  n.className="nieve";
-  n.style.left=Math.random()*100+"vw";
-  n.style.animationDuration=5+Math.random()*5+"s";
-  document.body.appendChild(n);
+/* =========================
+   INICIO
+========================= */
+function startJourney(){
+  document.getElementById('audio').play();
+  showScene('scene2');
+  startCycles();
 }
 
-/* TEXTOS + FOTOS (3 VECES, ENCADENADO) */
-const textos=[
-  "Mensaje uno",
-  "Mensaje dos",
-  "Mensaje tres"
+/* =========================
+   CICLOS (3)
+========================= */
+const texts=[
+  "✨ Primer mensaje especial",
+  "🎄 Segundo mensaje navideño",
+  "❤️ Tercer mensaje desde el corazón"
+];
+const images=[
+  "img/ciclo1.jpg",
+  "img/ciclo2.jpg",
+  "img/ciclo3.jpg"
 ];
 
-let paso=0;
-const texto=document.getElementById("texto");
-const foto=document.getElementById("foto");
-
-document.body.addEventListener("click",()=>{
-  document.getElementById("musica").play();
-  iniciar();
-},{once:true});
-
-function iniciar(){
-  if(paso >= 3){
-    document.getElementById("casa").style.display="block";
+let index=0;
+function startCycles(){
+  if(index>=3){
+    setTimeout(()=>showScene('scene3'),1000);
     return;
   }
 
-  // mostrar texto
-  texto.innerText = textos[paso];
-  texto.style.opacity = 1;
-  foto.style.opacity = 0;
+  const textEl=document.getElementById('cycleText');
+  const imgEl=document.getElementById('cycleImg');
 
-  // texto 10s
+  textEl.innerText=texts[index];
+  imgEl.style.display='none';
+
+  // 10 segundos texto
   setTimeout(()=>{
-    texto.style.opacity = 0;
+    imgEl.src=images[index];
+    imgEl.style.display='block';
+  },10000);
 
-    // pequeño respiro visual
-    setTimeout(()=>{
-      // mostrar foto
-      foto.src = `foto${paso + 1}.jpg`;
-      foto.style.opacity = 1;
-
-      // foto 10s
-      setTimeout(()=>{
-        foto.style.opacity = 0;
-        paso++;
-        iniciar();
-      }, 10000);
-
-    }, 1000);
-
-  }, 10000);
+  // 10 segundos imagen
+  setTimeout(()=>{
+    index++;
+    startCycles();
+  },20000);
 }
 
-/* REGALO (3 CLICS) */
-let clicks=0;
-document.getElementById("regalo").onclick=()=>{
-  clicks++;
-  if(clicks===2){
-    document.getElementById("corazon").style.display="block";
-  }
-  if(clicks===3){
-    document.getElementById("botonLuz").style.display="block";
+/* =========================
+   REGALO (3 CLICS)
+========================= */
+let giftClicks=0;
+function openGift(){
+  giftClicks++;
+  if(giftClicks>=3){
+    showScene('scene5');
   }
 }
 
-/* FINAL */
-function mostrarFinal(){
-  document.getElementById("final").style.display="block";
+/* =========================
+   FINAL
+========================= */
+function goFinal(){
+  showScene('scene6');
 }
+
+/* =========================
+   GENERAR NIEVE
+========================= */
+document.querySelectorAll('.snow').forEach(layer=>{
+  for(let i=0;i<60;i++){
+    const s=document.createElement('span');
+    s.style.left=Math.random()*100+'%';
+    s.style.animationDuration=3+Math.random()*6+'s';
+    layer.appendChild(s);
+  }
+});
 </script>
 
 </body>
