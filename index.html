@@ -6,83 +6,80 @@
 <title>Viaje Navideño</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Georgia', serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
-  background:#000;
+  background:black;
   overflow:hidden;
+  font-family:'Georgia',serif;
   color:white;
 }
 
-/* FONDO */
+/* ESCENA */
 #escena{
   position:fixed;
   inset:0;
-  background:linear-gradient(#000,#001a33);
+  background:linear-gradient(#000,#001933);
   transition:background 4s;
 }
 
+/* ESTRELLAS */
+.estrella{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  opacity:.8;
+}
+
 /* NIEVE */
-.snow{
-  position:fixed;
+.nieve{
+  position:absolute;
   top:-10px;
-  width:6px;
-  height:6px;
+  width:5px;
+  height:5px;
   background:white;
   border-radius:50%;
-  opacity:.8;
   animation:caer linear infinite;
 }
-
 @keyframes caer{
-  to{ transform:translateY(110vh); }
+  to{transform:translateY(110vh);}
 }
 
-/* IMAGEN FLOTANTE (TU IMAGEN) */
+/* IMAGEN VIAJERA */
 #viajero{
   position:absolute;
-  top:10%;
+  top:8%;
   left:-40%;
-  width:40vw;
-  max-width:200px;
-  animation:volar 120s linear infinite;
-  z-index:1;       /* NO TAPA */
+  width:38vw;
+  max-width:180px;
+  animation:viajar 120s linear infinite;
+  z-index:1;
   pointer-events:none;
 }
-
-@keyframes volar{
-  from{ left:-40%; }
-  to{ left:120%; }
+@keyframes viajar{
+  from{left:-40%;}
+  to{left:120%;}
 }
 
 /* TEXTO */
 #texto{
   position:absolute;
-  bottom:20%;
+  bottom:22%;
   width:100%;
   text-align:center;
-  font-size:1.6em;
+  font-size:1.5em;
   opacity:0;
   z-index:3;
-  animation:aparecer 2s forwards;
-}
-
-@keyframes aparecer{
-  to{ opacity:1; }
+  padding:0 10px;
 }
 
 /* FOTO */
 #foto{
   position:absolute;
-  top:20%;
+  top:18%;
   left:50%;
   transform:translateX(-50%);
-  width:80vw;
+  width:82vw;
   max-width:320px;
   border-radius:16px;
   box-shadow:0 0 25px rgba(255,255,255,.4);
@@ -90,10 +87,10 @@ body{
   z-index:3;
 }
 
-/* CASA FINAL */
+/* CASA */
 #casa{
   display:none;
-  position:absolute;
+  position:fixed;
   inset:0;
   background:#1a0f08;
   z-index:4;
@@ -104,7 +101,6 @@ body{
 /* REGALO */
 #regalo{
   width:160px;
-  margin:auto;
   cursor:pointer;
 }
 
@@ -113,31 +109,31 @@ body{
   display:none;
   font-size:2em;
   margin-top:20px;
+  padding:20px;
 }
 
 /* BOTÓN LUZ */
-.boton-luz{
+#botonLuz{
   display:none;
   margin:30px auto;
-  padding:12px 24px;
-  background:radial-gradient(circle,#ff0,#f00);
-  color:black;
-  border-radius:30px;
+  padding:14px 26px;
+  background:radial-gradient(circle,#fff700,#ff0000);
+  border-radius:40px;
   font-size:1.2em;
+  color:black;
   cursor:pointer;
 }
 
-/* IMAGEN FINAL */
+/* FINAL */
 #final{
   display:none;
-  position:absolute;
+  position:fixed;
   inset:0;
-  background:#000;
+  background:black;
   z-index:6;
   text-align:center;
   padding-top:15vh;
 }
-
 #final img{
   width:85vw;
   max-width:360px;
@@ -161,7 +157,7 @@ body{
 <div id="casa">
   <img id="regalo" src="https://i.imgur.com/1JQ9Z6p.png">
   <div id="corazon">❤️ AQUÍ VA TU MENSAJE ❤️</div>
-  <div class="boton-luz" onclick="mostrarFinal()">ya es hora…</div>
+  <div id="botonLuz" onclick="mostrarFinal()">ya es hora…</div>
 </div>
 
 <div id="final">
@@ -169,13 +165,22 @@ body{
 </div>
 
 <script>
+/* ESTRELLAS */
+for(let i=0;i<120;i++){
+  let e=document.createElement("div");
+  e.className="estrella";
+  e.style.left=Math.random()*100+"vw";
+  e.style.top=Math.random()*100+"vh";
+  document.body.appendChild(e);
+}
+
 /* NIEVE */
 for(let i=0;i<80;i++){
-  let s=document.createElement('div');
-  s.className='snow';
-  s.style.left=Math.random()*100+'vw';
-  s.style.animationDuration=5+Math.random()*5+'s';
-  document.body.appendChild(s);
+  let n=document.createElement("div");
+  n.className="nieve";
+  n.style.left=Math.random()*100+"vw";
+  n.style.animationDuration=5+Math.random()*5+"s";
+  document.body.appendChild(n);
 }
 
 /* TEXTO + FOTOS */
@@ -190,7 +195,7 @@ const textos=[
 ];
 
 let paso=0;
-const textoDiv=document.getElementById("texto");
+const texto=document.getElementById("texto");
 const foto=document.getElementById("foto");
 
 document.body.addEventListener("click",()=>{
@@ -200,16 +205,16 @@ document.body.addEventListener("click",()=>{
 
 function iniciar(){
   if(paso>=7){
-    llegadaCasa();
+    document.getElementById("casa").style.display="block";
     return;
   }
 
-  textoDiv.innerText=textos[paso];
-  textoDiv.style.opacity=1;
+  texto.innerText=textos[paso];
+  texto.style.opacity=1;
   foto.style.opacity=0;
 
   setTimeout(()=>{
-    textoDiv.style.opacity=0;
+    texto.style.opacity=0;
     foto.src=`foto${paso+1}.jpg`;
     foto.style.opacity=1;
   },8000);
@@ -220,25 +225,19 @@ function iniciar(){
   },16000);
 }
 
-/* CASA */
+/* REGALO */
 let clicks=0;
-function llegadaCasa(){
-  document.getElementById("casa").style.display="block";
-}
-
 document.getElementById("regalo").onclick=()=>{
   clicks++;
-  if(clicks==1){
-    document.getElementById("regalo").style.transform="scale(1.1)";
-  }
-  if(clicks==2){
+  if(clicks===2){
     document.getElementById("corazon").style.display="block";
   }
-  if(clicks==3){
-    document.querySelector(".boton-luz").style.display="block";
+  if(clicks===3){
+    document.getElementById("botonLuz").style.display="block";
   }
 }
 
+/* FINAL */
 function mostrarFinal(){
   document.getElementById("final").style.display="block";
 }
@@ -246,6 +245,7 @@ function mostrarFinal(){
 
 </body>
 </html>
+
 
 
 
