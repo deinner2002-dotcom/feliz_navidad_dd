@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Viaje Navideño</title>
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI',sans-serif;background:#000;color:#fff}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI',sans-serif}
 
-/* ===== ESCENARIOS ===== */
+/* ===== ESCENAS ===== */
 .scene{
   position:absolute;
   width:100%;
@@ -16,102 +17,122 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Segoe UI',sans-ser
   justify-content:center;
   align-items:center;
   flex-direction:column;
-  transition:opacity 2s ease;
+  transition:opacity 2s;
+}
+.hidden{opacity:0;pointer-events:none}
+
+/* ===== ESCENA 1 ===== */
+#scene1{background:#000;color:#fff;z-index:5}
+
+/* ===== ESCENA 2 ===== */
+#scene2{
+  background:linear-gradient(#0a2a4a,#020b18);
+  color:white;
+  z-index:4;
 }
 
-#scene1{background:#000;z-index:2}
-#scene2{background:linear-gradient(#0b2a4a,#020d1a);opacity:0;pointer-events:none}
+/* ===== ESCENA CASA ===== */
+#sceneHouse{
+  background:linear-gradient(#1b0f05,#3a1f0a);
+  color:white;
+  z-index:3;
+}
+
+/* ===== FINAL ===== */
+#sceneFinal{
+  background:#000;
+  color:white;
+  z-index:2;
+}
 
 /* ===== NIEVE ===== */
 canvas{
   position:absolute;
-  top:0;left:0;
-  width:100%;height:100%;
+  inset:0;
   z-index:1;
+}
+
+/* ===== BOTONES ===== */
+.btn{
+  padding:16px 40px;
+  font-size:22px;
+  border:none;
+  border-radius:40px;
+  cursor:pointer;
+  background:linear-gradient(45deg,#ffe066,#ff3d00);
+  box-shadow:0 0 30px rgba(255,200,0,.9);
 }
 
 /* ===== ÁRBOL ===== */
 .tree{
   position:relative;
-  width:220px;
-  height:300px;
+  width:260px;
+  height:340px;
 }
 .tree .layer{
   position:absolute;
   left:50%;
   transform:translateX(-50%);
   width:0;height:0;
-  border-left:120px solid transparent;
-  border-right:120px solid transparent;
-  border-bottom:90px solid #0a7a3c;
-  filter:drop-shadow(0 0 15px rgba(0,255,120,.5));
+  border-left:140px solid transparent;
+  border-right:140px solid transparent;
+  border-bottom:100px solid #0b7d3b;
+  filter:drop-shadow(0 0 20px rgba(0,255,120,.6));
 }
 .tree .l1{top:0}
-.tree .l2{top:60px;transform:translateX(-50%) scale(.9)}
-.tree .l3{top:120px;transform:translateX(-50%) scale(.8)}
+.tree .l2{top:70px;transform:translateX(-50%) scale(.9)}
+.tree .l3{top:140px;transform:translateX(-50%) scale(.8)}
 .star{
   position:absolute;
-  top:-35px;
+  top:-40px;
   left:50%;
   transform:translateX(-50%);
-  font-size:40px;
+  font-size:46px;
   color:gold;
-  text-shadow:0 0 20px gold;
-}
-
-/* ===== BOTÓN ===== */
-.btn{
-  margin-top:40px;
-  padding:15px 40px;
-  font-size:20px;
-  border:none;
-  border-radius:40px;
-  background:linear-gradient(45deg,#ff3,#f00);
-  color:#000;
-  cursor:pointer;
-  box-shadow:0 0 30px rgba(255,200,0,.8);
+  text-shadow:0 0 25px gold;
 }
 
 /* ===== SANTA ===== */
 #santa{
   position:absolute;
-  bottom:20%;
-  left:-40%;
-  width:500px;
+  bottom:35%;
+  left:-45%;
   display:flex;
   align-items:center;
-  animation:fly 90s linear forwards;
+  animation:fly 160s linear forwards;
 }
-@keyframes fly{
-  to{left:110%}
-}
+@keyframes fly{to{left:120%}}
+
 .reno{
-  width:60px;height:40px;
-  background:#5b3a1e;
+  width:70px;height:40px;
+  background:#5c3a1e;
   border-radius:20px;
   margin-right:10px;
 }
 .trineo{
-  width:180px;height:80px;
-  background:#b30000;
-  border-radius:20px;
+  width:200px;height:80px;
+  background:#a80000;
+  border-radius:25px;
   margin-left:10px;
+  display:flex;
+  align-items:flex-end;
 }
 .santa-body{
   width:90px;height:120px;
   background:red;
   border-radius:20px;
   position:relative;
+  margin-left:20px;
 }
 .santa-face{
   position:absolute;
-  top:-55px;left:50%;
+  top:-60px;
+  left:50%;
   transform:translateX(-50%);
-  width:70px;height:70px;
+  width:75px;height:75px;
   border-radius:50%;
-  background:#fff;
   overflow:hidden;
-  border:3px solid #fff;
+  border:4px solid white;
 }
 .santa-face img{
   width:100%;
@@ -122,12 +143,49 @@ canvas{
 /* ===== TEXTO ===== */
 #magicText{
   position:absolute;
-  top:20%;
-  font-size:42px;
+  top:18%;
+  width:80%;
   text-align:center;
-  opacity:0;
+  font-size:42px;
   text-shadow:0 0 20px #fff;
+  opacity:0;
   transition:opacity 3s;
+}
+
+/* ===== FOTO ===== */
+#photoBox{
+  position:absolute;
+  bottom:15%;
+  width:320px;
+  height:220px;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 0 30px rgba(255,255,255,.8);
+  opacity:0;
+  transition:opacity 3s;
+}
+#photoBox img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ===== REGALO ===== */
+#gift{
+  width:200px;height:200px;
+  background:#c00;
+  border-radius:20px;
+  box-shadow:0 0 30px red;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ===== CORAZÓN ===== */
+#heart{
+  font-size:160px;
+  color:#ff4d6d;
+  text-shadow:0 0 30px pink;
 }
 </style>
 </head>
@@ -148,18 +206,17 @@ canvas{
 </div>
 
 <!-- ESCENA 2 -->
-<div id="scene2" class="scene">
-  <div id="magicText">Este es solo el comienzo…</div>
+<div id="scene2" class="scene hidden">
+  <div id="magicText"></div>
+  <div id="photoBox"><img src="foto1.jpg"></div>
 
   <div id="santa">
     <div class="reno"></div>
     <div class="reno"></div>
     <div class="reno"></div>
-
     <div class="trineo">
       <div class="santa-body">
         <div class="santa-face">
-          <!-- 👉 TU FOTO AQUÍ -->
           <img src="TU_CARA.png">
         </div>
       </div>
@@ -167,57 +224,92 @@ canvas{
   </div>
 </div>
 
+<!-- CASA -->
+<div id="sceneHouse" class="scene hidden">
+  <div id="gift">
+    <button class="btn" onclick="openGift()">Abrir</button>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div id="sceneFinal" class="scene hidden">
+  <div id="heart">❤️</div>
+  <button class="btn">Ya es hora…</button>
+</div>
+
 <audio id="music" loop>
-  <!-- 👉 TU MÚSICA AQUÍ -->
-  <source src="cascabeles.mp3" type="audio/mpeg">
+  <source src="cascabeles.mp3">
 </audio>
 
 <script>
 /* ===== NIEVE ===== */
-const canvas=document.getElementById("snow");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-let snow=[];
+const canvas=document.getElementById("snow"),ctx=canvas.getContext("2d");
+canvas.width=innerWidth;canvas.height=innerHeight;
+let flakes=[];
 for(let i=0;i<200;i++){
-  snow.push({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*3+1,
-    s:Math.random()*1+0.5
-  });
+  flakes.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*3+1,s:Math.random()*1+0.5});
 }
-function drawSnow(){
+function snow(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle="white";
-  snow.forEach(f=>{
-    ctx.beginPath();
-    ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
-    ctx.fill();
-    f.y+=f.s;
-    if(f.y>canvas.height)f.y=0;
+  flakes.forEach(f=>{
+    ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill();
+    f.y+=f.s;if(f.y>canvas.height)f.y=0;
   });
-  requestAnimationFrame(drawSnow);
+  requestAnimationFrame(snow);
 }
-drawSnow();
+snow();
 
-/* ===== TRANSICIÓN ===== */
+/* ===== SECUENCIA ===== */
+let texts=[
+  "Desde que llegaste, todo cambió…",
+  "Cada momento contigo es magia",
+  "Tu sonrisa ilumina mis días",
+  "Eres mi mejor regalo",
+  "Gracias por existir",
+  "Contigo quiero todo",
+  "Esto es solo el comienzo"
+];
+let photos=["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg","foto6.jpg","foto7.jpg"];
+let i=0;
+
 function startJourney(){
-  document.getElementById("music").play();
-  scene1.style.opacity=0;
-  setTimeout(()=>{
-    scene1.style.display="none";
-    scene2.style.opacity=1;
-    scene2.style.pointerEvents="auto";
+  music.play();
+  scene1.classList.add("hidden");
+  scene2.classList.remove("hidden");
+  runSequence();
+}
+
+function runSequence(){
+  if(i>=7){
     setTimeout(()=>{
-      magicText.style.opacity=1;
-    },3000);
-  },2000);
+      scene2.classList.add("hidden");
+      sceneHouse.classList.remove("hidden");
+    },15000);
+    return;
+  }
+  magicText.innerText=texts[i];
+  magicText.style.opacity=1;
+  photoBox.style.opacity=0;
+
+  setTimeout(()=>{
+    magicText.style.opacity=0;
+    photoBox.querySelector("img").src=photos[i];
+    photoBox.style.opacity=1;
+    i++;
+    setTimeout(runSequence,15000);
+  },15000);
+}
+
+function openGift(){
+  sceneHouse.classList.add("hidden");
+  sceneFinal.classList.remove("hidden");
 }
 </script>
 
 </body>
 </html>
+
 
 
 
